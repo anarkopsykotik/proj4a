@@ -11,22 +11,22 @@ Compressor::Compressor(QWidget *parent)
 	fuseButton = new QPushButton(tr("&Fuse"), this);
 	connect(fuseButton, &QAbstractButton::clicked, this, &Compressor::fuse);
 
-	fileComboBox = createComboBox(tr("*"));
-	textComboBox = createComboBox();
+//	fileComboBox = createComboBox(tr("*"));
+//	textComboBox = createComboBox();
 	directoryComboBox = createComboBox(QDir::currentPath());
 
-	fileLabel = new QLabel(tr("Named:"));
-	textLabel = new QLabel(tr("Containing text:"));
-	directoryLabel = new QLabel(tr("In directory:"));
+	//fileLabel = new QLabel(tr("Named:"));
+	//textLabel = new QLabel(tr("Containing text:"));
+	directoryLabel = new QLabel(tr("Choosen directory:"));
 	filesFoundLabel = new QLabel;
 
 	createFilesTable();
 
 	QGridLayout *mainLayout = new QGridLayout;
-	mainLayout->addWidget(fileLabel, 0, 0);
-	mainLayout->addWidget(fileComboBox, 0, 1, 1, 2);
-	mainLayout->addWidget(textLabel, 1, 0);
-	mainLayout->addWidget(textComboBox, 1, 1, 1, 2);
+//	mainLayout->addWidget(fileLabel, 0, 0);
+//	mainLayout->addWidget(fileComboBox, 0, 1, 1, 2);
+//	mainLayout->addWidget(textLabel, 1, 0);
+//	mainLayout->addWidget(textComboBox, 1, 1, 1, 2);
 	mainLayout->addWidget(directoryLabel, 2, 0);
 	mainLayout->addWidget(directoryComboBox, 2, 1);
 	mainLayout->addWidget(browseButton, 2, 2);
@@ -68,12 +68,12 @@ void Compressor::fuse()
 {
 	filesTable->setRowCount(0);
 
-	QString fileName = fileComboBox->currentText();
-	QString text = textComboBox->currentText();
+	QString fileName = "";// fileComboBox->currentText();
+	QString text = "";// textComboBox->currentText();
 	QString path = directoryComboBox->currentText();
 
-	updateComboBox(fileComboBox);
-	updateComboBox(textComboBox);
+//	updateComboBox(fileComboBox);
+//	updateComboBox(textComboBox);
 	updateComboBox(directoryComboBox);
 
 	currentDir = QDir(path);
@@ -107,9 +107,30 @@ QStringList Compressor::fuseFiles(const QStringList &files, const QString &text)
 			break;
 
 		QFile file(currentDir.absoluteFilePath(files[i]));
+		QString val;
 
-		if (file.open(QIODevice::ReadOnly)) {//reading file
-			QString line;
+		if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {//reading file
+			val = file.readAll();
+			file.close();
+			qWarning() << val;
+			QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
+			QJsonObject sett2 = d.object();
+			QJsonValue value = sett2.value(QString("appName"));
+			qWarning() << value;
+			QJsonObject item = value.toObject();
+			qWarning() << tr("QJsonObject of description: ") << item;
+
+			/* incase of string value get value and convert into string*/
+			qWarning() << tr("QJsonObject[appName] of description: ") << item["description"];
+			QJsonValue subobj = item["description"];
+			qWarning() << subobj.toString();
+
+			/* incase of array get array and convert into string*/
+			qWarning() << tr("QJsonObject[appName] of value: ") << item["imp"];
+			QJsonArray test = item["imp"].toArray();
+			qWarning() << test[1].toString();
+
+			/*QString line;
 			QTextStream in(&file);
 			while (!in.atEnd()) {
 				if (progressDialog.wasCanceled())
@@ -119,7 +140,7 @@ QStringList Compressor::fuseFiles(const QStringList &files, const QString &text)
 					foundFiles << files[i];
 					break;
 				}
-			}
+			}*/
 		}
 	}
 	return foundFiles;

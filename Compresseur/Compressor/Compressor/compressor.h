@@ -22,11 +22,11 @@ private:
 	QComboBox *createComboBox(const QString &text = QString());
 	void createFilesTable();
 
-	QComboBox *fileComboBox;
-	QComboBox *textComboBox;
+	/*QComboBox *fileComboBox;
+	QComboBox *textComboBox;*/
 	QComboBox *directoryComboBox;
-	QLabel *fileLabel;
-	QLabel *textLabel;
+	/*QLabel *fileLabel;
+	//QLabel *textLabel;*/
 	QLabel *directoryLabel;
 	QLabel *filesFoundLabel;
 	QPushButton *browseButton;
