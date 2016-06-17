@@ -113,25 +113,27 @@ void Compressor::displayFiles()
 	showFiles(files);
 }
 
-QStringList Compressor::fuseFiles(const QStringList &files, const QString &text)
+QStringList Compressor::fuseFiles()
 {
 	QProgressDialog progressDialog(this);
 	progressDialog.setCancelButtonText(tr("&Cancel"));
-	progressDialog.setRange(0, files.size());
+	//progressDialog.setRange(0, files.size());
 	progressDialog.setWindowTitle(tr("Fuse Files"));
 
-	QStringList foundFiles;
+	QList<QTableWidgetItem*> foundFiles;
+	directoryComboBox;
+	foundFiles = filesTable->selectedItems();
 
-	for (int i = 0; i < files.size(); ++i) {
+	for (int i = 0; i < foundFiles.size(); ++i) {
 		progressDialog.setValue(i);
 		progressDialog.setLabelText(tr("Fusing file number %1 of %2...")
-			.arg(i).arg(files.size()));
+			.arg(i).arg(foundFiles.size()));
 		qApp->processEvents();
 
 		if (progressDialog.wasCanceled())
 			break;
 
-		QFile file(currentDir.absoluteFilePath(files[i]));
+		QFile file(currentDir.absoluteFilePath(foundFiles[i]->text()));
 		QString val;
 
 		if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {//reading file
@@ -168,7 +170,9 @@ QStringList Compressor::fuseFiles(const QStringList &files, const QString &text)
 			}*/
 		}
 	}
-	return foundFiles;
+
+	QStringList x;
+	return x;// foundFiles;
 }
 
 void Compressor::showFiles(const QStringList &files)
@@ -216,6 +220,7 @@ void Compressor::createFilesTable()
 	filesTable->setShowGrid(false);
 
 	connect(filesTable, &QTableWidget::cellActivated, this, &Compressor::openFileOfItem);
+
 }
 
 

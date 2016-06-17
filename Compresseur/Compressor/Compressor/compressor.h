@@ -17,7 +17,7 @@ public:
 
 private:
 	Ui::CompressorClass ui;
-	QStringList fuseFiles(const QStringList &files, const QString &text);
+	QStringList fuseFiles();
 	void showFiles(const QStringList &files);
 	void displayFiles();
 	QComboBox *createComboBox(const QString &text = QString());
