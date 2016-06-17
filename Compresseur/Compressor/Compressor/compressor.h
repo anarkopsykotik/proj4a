@@ -19,6 +19,7 @@ private:
 	Ui::CompressorClass ui;
 	QStringList fuseFiles(const QStringList &files, const QString &text);
 	void showFiles(const QStringList &files);
+	void displayFiles();
 	QComboBox *createComboBox(const QString &text = QString());
 	void createFilesTable();
 
@@ -37,7 +38,7 @@ private:
 
 private slots:
 	void browse();
-	void fuse();
+	//void displayFiles();
 	void openFileOfItem(int row, int column);
 };
 
