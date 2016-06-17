@@ -117,12 +117,14 @@ QStringList Compressor::fuseFiles()
 {
 	QProgressDialog progressDialog(this);
 	progressDialog.setCancelButtonText(tr("&Cancel"));
-	//progressDialog.setRange(0, files.size());
+	
 	progressDialog.setWindowTitle(tr("Fuse Files"));
 
 	QList<QTableWidgetItem*> foundFiles;
-	directoryComboBox;
+	//directoryComboBox;
 	foundFiles = filesTable->selectedItems();
+
+	progressDialog.setRange(0, foundFiles.size());
 
 	for (int i = 0; i < foundFiles.size(); ++i) {
 		progressDialog.setValue(i);
@@ -141,6 +143,27 @@ QStringList Compressor::fuseFiles()
 			file.close();
 			qWarning() << val;
 			QJsonDocument d = QJsonDocument::fromJson(val.toUtf8());
+
+			QJsonObject jsonObject = d.object();
+			//jsonObject["DATA"].
+			QJsonArray jsonArray = jsonObject["DATA"].toArray();
+			QString first = jsonArray.first().toString();
+			//QString test2 = jsonArray[0].toString();
+			QStringList keys = jsonObject.keys();
+
+			qWarning() << jsonArray[0].toString();
+
+			/*totest
+			QJsonDocument document = QJsonDocument::fromJson(jsonData);
+    QJsonObject object = document.object();
+
+    QJsonValue value = object.value("agentsArray");
+    QJsonArray array = value.toArray();
+    foreach (const QJsonValue & v, array)
+        qDebug() << v.toObject().value("ID").toInt();
+
+			*/
+			//fuck off under -----
 			QJsonObject sett2 = d.object();
 			QJsonValue value = sett2.value(QString("appName"));
 			qWarning() << value;

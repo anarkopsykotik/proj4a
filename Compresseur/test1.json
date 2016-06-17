@@ -2,7 +2,7 @@
 "DATA":
      [
           {
-                "id": "0200000001", // 1er entregistrement du groupe 2
+                "id": "0200000001",
                 "DateHeure": "2016-06-17T15:53:23:231Z",
                 "Latitude": 0.1578949,
                 "Longitude": 0.1578949,
@@ -16,7 +16,7 @@
                 "Humidite": 50
           },
  {
-                "id": "0200000002", // 1er entregistrement du groupe 2
+                "id": "0200000002", 
                 "DateHeure": "2016-06-17T15:53:23:231Z",
                 "Latitude": 0.1578949,
                 "Longitude": 0.1578949,
@@ -30,7 +30,7 @@
                 "Humidite": 50
           },
  {
-                "id": "0200000003", // 1er entregistrement du groupe 2
+                "id": "0200000003",
                 "DateHeure": "2016-06-17T15:53:23:231Z",
                 "Latitude": 0.1578949,
                 "Longitude": 0.1578949,
@@ -42,10 +42,6 @@
                 "Accel_z": 0.47,
                 "Temperature": 292.15,
                 "Humidite": 50
-          },
-          {
-                "id":(N°Enregistrement),
-               ...
           }
      ]
 }
