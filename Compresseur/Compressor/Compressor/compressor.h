@@ -42,6 +42,7 @@ private:
 
 private slots:
 	void browse();
+	void browseDest();
 	//void displayFiles();
 	void openFileOfItem(int row, int column);
 };

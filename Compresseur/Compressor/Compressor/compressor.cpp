@@ -8,9 +8,13 @@ Compressor::Compressor(QWidget *parent)
 	//QPushButton bouton("Salut les Zéros, la forme ?", this);
 	browseButton = new QPushButton(tr("&Browse..."), this);
 	connect(browseButton, &QAbstractButton::clicked, this, &Compressor::browse);
-	fuseButton = new QPushButton(tr("&Fuse"), this);
+
 	browseDestButton = new QPushButton(tr("&Destination..."), this);
-	//connect(fuseButton, &QAbstractButton::clicked, this, &Compressor::fuse);
+	connect(browseDestButton, &QAbstractButton::clicked, this, &Compressor::browseDest);
+
+	fuseButton = new QPushButton(tr("&Fuse"), this);
+	connect(fuseButton, &QAbstractButton::clicked, this, &Compressor::fuseFiles);
+
 
 //	fileComboBox = createComboBox(tr("*"));
 //	textComboBox = createComboBox();
@@ -65,6 +69,18 @@ void Compressor::browse()
 		directoryComboBox->setCurrentIndex(directoryComboBox->findText(directory));
 	}
 	Compressor::displayFiles();
+}
+
+void Compressor::browseDest()
+{
+	QString directory = QFileDialog::getExistingDirectory(this,
+		tr("Where to fuse"), QDir::currentPath());
+
+	if (!directory.isEmpty()) {
+		if (directoryDestComboBox->findText(directory) == -1)
+			directoryDestComboBox->addItem(directory);
+		directoryDestComboBox->setCurrentIndex(directoryDestComboBox->findText(directory));
+	}
 }
 
 static void updateComboBox(QComboBox *comboBox)
