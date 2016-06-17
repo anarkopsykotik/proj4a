@@ -8,8 +8,8 @@ Compressor::Compressor(QWidget *parent)
 	//QPushButton bouton("Salut les Zéros, la forme ?", this);
 	browseButton = new QPushButton(tr("&Browse..."), this);
 	connect(browseButton, &QAbstractButton::clicked, this, &Compressor::browse);
-	fuseButton = new QPushButton(tr("&Fuse"), this);
-	connect(fuseButton, &QAbstractButton::clicked, this, &Compressor::fuse);
+	//fuseButton = new QPushButton(tr("&Fuse"), this);
+	//connect(fuseButton, &QAbstractButton::clicked, this, &Compressor::fuse);
 
 //	fileComboBox = createComboBox(tr("*"));
 //	textComboBox = createComboBox();
@@ -32,7 +32,7 @@ Compressor::Compressor(QWidget *parent)
 	mainLayout->addWidget(browseButton, 2, 2);
 	mainLayout->addWidget(filesTable, 3, 0, 1, 3);
 	mainLayout->addWidget(filesFoundLabel, 4, 0, 1, 2);
-	mainLayout->addWidget(fuseButton, 4, 2);
+	//mainLayout->addWidget(fuseButton, 4, 2);
 	setLayout(mainLayout);
 
 	setWindowTitle(tr("Fuse Files"));
@@ -49,13 +49,14 @@ Compressor::Compressor(QWidget *parent)
 void Compressor::browse()
 {
 	QString directory = QFileDialog::getExistingDirectory(this,
-		tr("Fuse Files"), QDir::currentPath());
+		tr("Files to Fuse"), QDir::currentPath());
 
 	if (!directory.isEmpty()) {
 		if (directoryComboBox->findText(directory) == -1)
 			directoryComboBox->addItem(directory);
 		directoryComboBox->setCurrentIndex(directoryComboBox->findText(directory));
 	}
+	Compressor::displayFiles();
 }
 
 static void updateComboBox(QComboBox *comboBox)
@@ -64,12 +65,12 @@ static void updateComboBox(QComboBox *comboBox)
 		comboBox->addItem(comboBox->currentText());
 }
 
-void Compressor::fuse()
+void Compressor::displayFiles()
 {
 	filesTable->setRowCount(0);
 
-	QString fileName = "";// fileComboBox->currentText();
-	QString text = "";// textComboBox->currentText();
+	//QString fileName = "";// fileComboBox->currentText();
+	//QString text = "";// textComboBox->currentText();
 	QString path = directoryComboBox->currentText();
 
 //	updateComboBox(fileComboBox);
@@ -78,13 +79,13 @@ void Compressor::fuse()
 
 	currentDir = QDir(path);
 	QStringList files;
-	if (fileName.isEmpty())
-		fileName = "*";
-	files = currentDir.entryList(QStringList(fileName),
+	//if (fileName.isEmpty())
+	//	fileName = "*";
+	files = currentDir.entryList(QStringList("*"),
 		QDir::Files | QDir::NoSymLinks);
 
-	if (!text.isEmpty())
-		files = fuseFiles(files, text);
+	//if (!text.isEmpty())
+	//	files = fuseFiles(files, text);
 	showFiles(files);
 }
 
