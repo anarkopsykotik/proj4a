@@ -26,12 +26,16 @@ private:
 	/*QComboBox *fileComboBox;
 	QComboBox *textComboBox;*/
 	QComboBox *directoryComboBox;
+	QComboBox *directoryDestComboBox;
+
 	/*QLabel *fileLabel;
 	//QLabel *textLabel;*/
 	QLabel *directoryLabel;
 	QLabel *filesFoundLabel;
 	QPushButton *browseButton;
 	QPushButton *fuseButton;
+	QPushButton *browseDestButton;
+
 	QTableWidget *filesTable;
 
 	QDir currentDir;

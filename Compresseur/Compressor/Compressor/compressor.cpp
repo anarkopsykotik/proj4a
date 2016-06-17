@@ -9,12 +9,13 @@ Compressor::Compressor(QWidget *parent)
 	browseButton = new QPushButton(tr("&Browse..."), this);
 	connect(browseButton, &QAbstractButton::clicked, this, &Compressor::browse);
 	fuseButton = new QPushButton(tr("&Fuse"), this);
+	browseDestButton = new QPushButton(tr("&Destination..."), this);
 	//connect(fuseButton, &QAbstractButton::clicked, this, &Compressor::fuse);
 
 //	fileComboBox = createComboBox(tr("*"));
 //	textComboBox = createComboBox();
 	directoryComboBox = createComboBox(QDir::currentPath());
-
+	directoryDestComboBox = createComboBox(QDir::currentPath());;
 	//fileLabel = new QLabel(tr("Named:"));
 	//textLabel = new QLabel(tr("Containing text:"));
 	directoryLabel = new QLabel(tr("Choosen directory:"));
@@ -27,12 +28,19 @@ Compressor::Compressor(QWidget *parent)
 //	mainLayout->addWidget(fileComboBox, 0, 1, 1, 2);
 //	mainLayout->addWidget(textLabel, 1, 0);
 //	mainLayout->addWidget(textComboBox, 1, 1, 1, 2);
-	mainLayout->addWidget(directoryLabel, 2, 0);
-	mainLayout->addWidget(directoryComboBox, 2, 1);
-	mainLayout->addWidget(browseButton, 2, 2);
-	mainLayout->addWidget(filesTable, 3, 0, 1, 3);
+	mainLayout->addWidget(directoryLabel, 2, 0);//dir name
+	mainLayout->addWidget(directoryComboBox, 2, 1);//dir choice
+	mainLayout->addWidget(browseButton, 2, 2);//browse dir buttons
+
+	mainLayout->addWidget(filesTable, 3, 0, 1, 3);//list file in selected dir
 	mainLayout->addWidget(filesFoundLabel, 4, 0, 1, 2);
-	mainLayout->addWidget(fuseButton, 4, 2);
+	mainLayout->addWidget(fuseButton, 4, 2);//fuse files
+
+	//mainLayout->addWidget(directoryDestLabel, 2, 0);//dir name
+	mainLayout->addWidget(directoryDestComboBox, 5, 1);//dest dir choice
+	mainLayout->addWidget(browseDestButton, 5, 2);
+
+
 	setLayout(mainLayout);
 
 	setWindowTitle(tr("Fuse Files"));
