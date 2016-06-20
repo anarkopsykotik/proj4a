@@ -106,7 +106,7 @@ void Compressor::displayFiles()
 	//if (fileName.isEmpty())
 	//	fileName = "*";
 	files = currentDir.entryList(QStringList("*"),
-		QDir::Files | QDir::NoSymLinks);
+		QDir::Files | QDir::NoSymLinks, QDir::Time );
 
 	//if (!text.isEmpty())
 	//	files = fuseFiles(files, text);
