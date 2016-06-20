@@ -115,7 +115,12 @@ void Compressor::displayFiles()
 
 void Compressor::fuseFiles()
 {
-	QList<QJsonObject> entryList;
+	QJsonArray entryList;
+
+
+	QString destFileLoc = currentDir.absoluteFilePath ( directoryDestComboBox->currentText() );
+	QFile destFile(destFileLoc + "/output.json");
+	qDebug() << destFileLoc + "/output.json";
 
 	QProgressDialog progressDialog(this);
 	progressDialog.setCancelButtonText(tr("&Cancel"));
@@ -139,7 +144,7 @@ void Compressor::fuseFiles()
 
 		QFile file(currentDir.absoluteFilePath(foundFiles[i]->text()));
 		//QString val;
-		QByteArray jsonData;// = file.readAll();
+		QByteArray jsonData;
 
 		if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {//reading file
 			jsonData = file.readAll();
@@ -149,14 +154,26 @@ void Compressor::fuseFiles()
 
 			QJsonValue value = object.value("DATA");
 			QJsonArray array = value.toArray();
-			//foreach(const QJsonValue & v, array)				debug
+			//foreach(const QJsonValue & v, array)//				debug
 			//	qDebug() << v.toObject().value("id").toString();
 
 			foreach(const QJsonValue & v, array)
-				entryList.append( v.toObject());// .value("id").toString();
-			
+				entryList.append(v);			
+
 		}
 	}
+
+	QJsonDocument doc;
+	QJsonObject rootObject;
+	rootObject.insert("DATA", entryList);
+	doc.setObject(rootObject);
+
+
+	destFile.open(QFile::WriteOnly | QFile::Text | QFile::Truncate);
+	destFile.write(doc.toJson());
+	destFile.close();
+	//QJsonArray Array = RootObject.value("array").toArray();
+
 	/*foreach(const QJsonObject & v, entryList)		debug
 		qDebug() << v.value("id").toString();*/
 }
