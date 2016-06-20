@@ -113,8 +113,10 @@ void Compressor::displayFiles()
 	showFiles(files);
 }
 
-QStringList Compressor::fuseFiles()
+void Compressor::fuseFiles()
 {
+	QList<QJsonObject> entryList;
+
 	QProgressDialog progressDialog(this);
 	progressDialog.setCancelButtonText(tr("&Cancel"));
 	
@@ -147,14 +149,16 @@ QStringList Compressor::fuseFiles()
 
 			QJsonValue value = object.value("DATA");
 			QJsonArray array = value.toArray();
+			//foreach(const QJsonValue & v, array)				debug
+			//	qDebug() << v.toObject().value("id").toString();
+
 			foreach(const QJsonValue & v, array)
-				qDebug() << v.toObject().value("id").toString();
+				entryList.append( v.toObject());// .value("id").toString();
 			
 		}
 	}
-
-	QStringList x;
-	return x;// foundFiles;
+	/*foreach(const QJsonObject & v, entryList)		debug
+		qDebug() << v.value("id").toString();*/
 }
 
 void Compressor::showFiles(const QStringList &files)
