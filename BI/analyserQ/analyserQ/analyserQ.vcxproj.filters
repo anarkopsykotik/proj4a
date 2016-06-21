@@ -24,12 +24,12 @@
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Debug">
-      <UniqueIdentifier>{15e8f280-752a-4978-bbd5-0e46d8de9319}</UniqueIdentifier>
+      <UniqueIdentifier>{a2daae88-e6b8-48af-afd5-7c40d4b4136b}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
     <Filter Include="Generated Files\Release">
-      <UniqueIdentifier>{f747dea2-f9b7-464d-a144-fe8b0c5ac82d}</UniqueIdentifier>
+      <UniqueIdentifier>{c79f0758-7032-4c32-8319-f963a8f64201}</UniqueIdentifier>
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
@@ -38,22 +38,38 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="qtquick2applicationviewer.cpp">
+    <ClCompile Include="analyserq.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_qtquick2applicationviewer.cpp">
+    <ClCompile Include="GeneratedFiles\Debug\moc_analyserq.cpp">
       <Filter>Generated Files\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_qtquick2applicationviewer.cpp">
+    <ClCompile Include="GeneratedFiles\Release\moc_analyserq.cpp">
       <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_analyserq.cpp">
+      <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="main.qml" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="qtquick2applicationviewer.h">
+    <CustomBuild Include="analyserq.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="analyserq.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="analyserq.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GeneratedFiles\ui_analyserq.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="map.qml">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
