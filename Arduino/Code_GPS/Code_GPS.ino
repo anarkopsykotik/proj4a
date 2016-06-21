@@ -4,10 +4,10 @@
 
 File dataFile;
 
-const int chipSelect = 4;
+const int chipSelect = 10;
 long lat,lon;
 
-SoftwareSerial gpsSerial(1,0);
+SoftwareSerial gpsSerial(0,1);
 TinyGPS gps;
 
 void setup() 
@@ -60,6 +60,6 @@ void loop()
     {
       Serial.println("Erreur ouverture du fichier : GPS.txt");
     }
-    delay(10000);
+    delay(1000);
   }      
 }
