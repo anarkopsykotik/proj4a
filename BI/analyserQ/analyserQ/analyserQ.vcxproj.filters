@@ -33,6 +33,9 @@
       <Extensions>cpp;moc</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Source Files\Data">
+      <UniqueIdentifier>{217f7c40-cbd0-401d-92f3-76594c621897}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -50,6 +53,60 @@
     <ClCompile Include="GeneratedFiles\qrc_analyserq.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
+    <ClCompile Include="dal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dal.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dal.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="DataLib\couchdb.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_couchdb.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_couchdb.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="DataLib\couchdblistener.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_couchdblistener.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_couchdblistener.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="DataLib\couchdbquery.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_couchdbquery.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_couchdbquery.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="DataLib\couchdbresponse.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_couchdbresponse.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_couchdbresponse.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="DataLib\couchdbserver.cpp">
+      <Filter>Source Files\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_couchdbserver.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_couchdbserver.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="analyserq.h">
@@ -61,10 +118,31 @@
     <CustomBuild Include="analyserq.qrc">
       <Filter>Resource Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="dal.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DataLib\couchdb.h">
+      <Filter>Source Files\Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DataLib\couchdblistener.h">
+      <Filter>Source Files\Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DataLib\couchdbquery.h">
+      <Filter>Source Files\Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DataLib\couchdbresponse.h">
+      <Filter>Source Files\Data</Filter>
+    </CustomBuild>
+    <CustomBuild Include="DataLib\couchdbserver.h">
+      <Filter>Source Files\Data</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_analyserq.h">
       <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DataLib\couchdbenums.h">
+      <Filter>Source Files\Data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ analyserQ::analyserQ(QWidget *parent)
 	QWidget *container = QWidget::createWindowContainer(view, map);
 	container->setMinimumSize(200, 200);
 	container->setMaximumSize(200, 200);
-	container->setFocusPolicy(Qt::TabFocus);
+	container->setFocusPolicy(Qt::TabFocus	);
 	view->setSource(QUrl("map.qml"));
 	//container->
 	//ui->verticalLayout->addWidget(container);
