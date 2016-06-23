@@ -27,8 +27,11 @@ private:
 	void addPoI(QVariant lat, QVariant longi, QVariant type);
 	//void handle_result(HttpRequestWorker *worker);
 	QJsonArray fileLoad();
+	void loadCombobox();
+
 private slots:
 	void handle_result(HttpRequestWorker*);
+	void fillCombobox(HttpRequestWorker*);
 	//QVariant addPoi(QVariant latitude, QVariant longitude, QVariant type);
 
 };

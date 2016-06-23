@@ -2,6 +2,7 @@
 
 //static QObject *rootObj;
 QObject *rootObj;
+//QComboBox *liste;
 
 analyserQ::analyserQ(QWidget *parent)
 	: QWidget(parent)
@@ -23,6 +24,8 @@ analyserQ::analyserQ(QWidget *parent)
 	liste = new QComboBox;
 	liste->setEditable(false);
 	liste->addItem("1");
+
+	loadCombobox();
 
 	QGridLayout *mainLayout = new QGridLayout;
 	mainLayout->addWidget(button, 0, 0);
@@ -57,6 +60,51 @@ analyserQ::analyserQ(QWidget *parent)
 	
 }
 
+void analyserQ::loadCombobox(){
+
+	HttpRequestWorker *worker = new HttpRequestWorker(this);
+	connect(worker, SIGNAL(on_execution_finished(HttpRequestWorker*)), this, SLOT(fillCombobox(HttpRequestWorker*)));
+
+	QString url_str = "http://www.example.com/path/to/page.php";
+	HttpRequestInput input(url_str, "GET");
+	input.add_var("key1", "value1");
+	input.add_var("key2", "value2");
+	worker->execute(&input);
+}
+
+void analyserQ::fillCombobox(HttpRequestWorker* worker){
+	qDebug() << "handleResult";
+	QString msg;
+	if (worker->error_type == QNetworkReply::NoError) {
+		// communication was successful
+		msg = "Success - Response: " + worker->response;
+	}
+	else {
+		// an error occurred
+		msg = "Error: " + worker->error_str;
+		QMessageBox::information(this, "", msg);
+		//return;
+	}
+
+	QMessageBox::information(this, "", msg);
+
+
+
+	QJsonDocument document = QJsonDocument::fromJson(msg.toUtf8());
+	QJsonObject object = document.object();
+
+	QJsonValue value = object.value("DATA");
+	QJsonArray array = value.toArray();
+
+	array = fileLoad();
+	qDebug() << "file loaded";
+
+	foreach(const QJsonValue & v, array)//				debug
+	{
+		liste->addItem(v.toObject().value("id").toString());
+	}
+}
+
 void analyserQ::addPoI(QVariant latitude, QVariant longitude, QVariant type)
 {
 	QVariant returnedValue;
@@ -71,6 +119,8 @@ void analyserQ::loadPoI() {
 	QString msg;
 	HttpRequestWorker *worker = new HttpRequestWorker(this);
 	connect(worker, SIGNAL(on_execution_finished(HttpRequestWorker*)), this, SLOT(handle_result(HttpRequestWorker*)));
+
+	QString choosenTraject = liste->currentText();
 	QString url_str = "http://www.example.com/path/to/page.php" ;
 	HttpRequestInput input(url_str, "GET");
 	input.add_var("key1", "value1");
@@ -116,7 +166,7 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 		QVariant type = 3;//green
 
 		double maxAcc = v.toObject().value("Accel_x").toDouble() + v.toObject().value("Accel_y").toDouble() + v.toObject().value("Accel_z").toDouble();
-
+		double highestAcc = maxAcc > highestAcc ? maxAcc : highestAcc;
 
 		double humidite = v.toObject().value("Humidite").toDouble();
 		if (humidite >= 100){
