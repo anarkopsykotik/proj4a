@@ -18,9 +18,14 @@ public:
 	~analyserQ();
 
 private:
+	QString dbUrl;
 	Ui::analyserQClass ui;
 	QPushButton *button;
 	QLabel *label;
+	QLabel *labelMaxH;
+	QLabel *labelMaxT;
+	QLabel *labelMaxA;
+
 	QComboBox *liste;
 	void loadPoI();
 	QObject *rootObj;
@@ -28,7 +33,7 @@ private:
 	//void handle_result(HttpRequestWorker *worker);
 	QJsonArray fileLoad();
 	void loadCombobox();
-
+	void setHighestLabels(double highestAcc, double highestTemp, double highestHumidite);
 private slots:
 	void handle_result(HttpRequestWorker*);
 	void fillCombobox(HttpRequestWorker*);

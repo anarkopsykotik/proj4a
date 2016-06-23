@@ -385,6 +385,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
+    <None Include="config.ini" />
     <None Include="map.qml" />
   </ItemGroup>
   <ItemGroup>

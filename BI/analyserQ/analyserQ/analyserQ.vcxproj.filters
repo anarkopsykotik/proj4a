@@ -149,6 +149,9 @@
     <None Include="map.qml">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="config.ini">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="poi.qml">

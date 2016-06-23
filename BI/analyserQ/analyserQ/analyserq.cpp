@@ -3,16 +3,22 @@
 //static QObject *rootObj;
 QObject *rootObj;
 //QComboBox *liste;
+QString dbUrl;
 
 analyserQ::analyserQ(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
+
+	QSettings settings(QString("config.ini"), QSettings::IniFormat);
+	dbUrl = settings.value("db/url", "http://localhost:32768").toString(); // settings.value() returns QVariant
+	qDebug() << "db: "+dbUrl;
 	QQuickView *view = new QQuickView();
 	QWidget *map = new QWidget();
 	QWidget *container = QWidget::createWindowContainer(view, map);
-	container->setMinimumSize(200, 200);
-	container->setMaximumSize(200, 200);
+	container->setMinimumSize(400, 450);
+	container->setMaximumSize(800, 800);
+	container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 	container->setFocusPolicy(Qt::TabFocus	);
 	view->setSource(QUrl("map.qml"));
 
@@ -21,6 +27,10 @@ analyserQ::analyserQ(QWidget *parent)
 
 
 	label = new QLabel(tr("Choix Trajets."), this);
+	labelMaxH = new QLabel(tr("Plus haute humidite du trajet"), this);
+	labelMaxA = new QLabel(tr("Plus fort choc du trajet"), this);
+	labelMaxT = new QLabel(tr("Plus haute temperature du trajet"), this);
+
 	liste = new QComboBox;
 	liste->setEditable(false);
 	liste->addItem("1");
@@ -29,10 +39,14 @@ analyserQ::analyserQ(QWidget *parent)
 
 	QGridLayout *mainLayout = new QGridLayout;
 	mainLayout->addWidget(button, 0, 0);
-	mainLayout->addWidget(map, 3, 0);
+	mainLayout->addWidget(map, 1, 0);
 
-	mainLayout->addWidget(label, 4, 0);//dir name
-	mainLayout->addWidget(liste, 4,1);//dir name
+	mainLayout->addWidget(label, 5, 0);
+	mainLayout->addWidget(labelMaxH, 1, 4);
+	mainLayout->addWidget(labelMaxA, 2, 4);
+	mainLayout->addWidget(labelMaxT, 3, 4);
+
+	mainLayout->addWidget(liste, 5,1);
 
 
 	setLayout(mainLayout);
@@ -65,10 +79,10 @@ void analyserQ::loadCombobox(){
 	HttpRequestWorker *worker = new HttpRequestWorker(this);
 	connect(worker, SIGNAL(on_execution_finished(HttpRequestWorker*)), this, SLOT(fillCombobox(HttpRequestWorker*)));
 
-	QString url_str = "http://www.example.com/path/to/page.php";
+	QString url_str = dbUrl + "/_all_docs";
 	HttpRequestInput input(url_str, "GET");
-	input.add_var("key1", "value1");
-	input.add_var("key2", "value2");
+	//input.add_var("key1", "value1");
+	//input.add_var("key2", "value2");
 	worker->execute(&input);
 }
 
@@ -93,7 +107,7 @@ void analyserQ::fillCombobox(HttpRequestWorker* worker){
 	QJsonDocument document = QJsonDocument::fromJson(msg.toUtf8());
 	QJsonObject object = document.object();
 
-	QJsonValue value = object.value("DATA");
+	QJsonValue value = object.value("rows");
 	QJsonArray array = value.toArray();
 
 	array = fileLoad();
@@ -121,10 +135,14 @@ void analyserQ::loadPoI() {
 	connect(worker, SIGNAL(on_execution_finished(HttpRequestWorker*)), this, SLOT(handle_result(HttpRequestWorker*)));
 
 	QString choosenTraject = liste->currentText();
-	QString url_str = "http://www.example.com/path/to/page.php" ;
+
+	int docId = 1;
+	docId = choosenTraject.toInt();
+	
+	QString url_str = dbUrl + "/"+docId ;
 	HttpRequestInput input(url_str, "GET");
-	input.add_var("key1", "value1");
-	input.add_var("key2", "value2");
+	//input.add_var("key1", "value1");
+	//input.add_var("key2", "value2");
 	worker->execute(&input);
 	qDebug() << "LoadPoi";
 }
@@ -152,6 +170,7 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 
 	QJsonValue value = object.value("DATA");
 	QJsonArray array = value.toArray();
+	double highestTemp, highestAcc, highestHumidite;
 
 	array = fileLoad();
 	qDebug() << "file loaded";
@@ -169,11 +188,13 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 		double highestAcc = maxAcc > highestAcc ? maxAcc : highestAcc;
 
 		double humidite = v.toObject().value("Humidite").toDouble();
+		double highestHumidite = humidite > highestHumidite ? humidite : highestHumidite;
 		if (humidite >= 100){
 			type = 0;//blue
 		}
 
 		double temp = v.toObject().value("Temperature").toDouble();
+		highestTemp = temp > highestTemp ? temp : highestTemp;
 		if (temp >= 320){
 			type = 1;//yellow
 		}
@@ -185,8 +206,9 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 		}
 		qDebug() << "poi:" + valLat.toString() + valLong.toString() + type.toString();
 		addPoI(valLat, valLong, type);
+		
 	}
-
+	setHighestLabels(highestAcc, highestTemp, highestHumidite);
 	/*for each (QJsonValue val in array)
 	{
 
@@ -201,6 +223,12 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 		qDebug() << "poi:" + valLat.toString() + valLong.toString() + type.toString();
 		addPoI(valLat, valLong, type);
 	}*/
+}
+
+void analyserQ::setHighestLabels(double highestAcc, double highestTemp, double highestHumidite){
+	labelMaxH->setText("Plus haute humidite du trajet" + QString::number(highestHumidite));
+	labelMaxA->setText("Plus fort choc du trajet" + QString::number(highestAcc));
+	labelMaxT->setText("Plus haute temperature du trajet" + QString::number(highestTemp));
 }
 
 QJsonArray analyserQ::fileLoad(){
