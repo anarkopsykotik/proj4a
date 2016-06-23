@@ -53,15 +53,6 @@
     <ClCompile Include="GeneratedFiles\qrc_analyserq.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="dal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_dal.cpp">
-      <Filter>Generated Files\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_dal.cpp">
-      <Filter>Generated Files\Release</Filter>
-    </ClCompile>
     <ClCompile Include="DataLib\couchdb.cpp">
       <Filter>Source Files\Data</Filter>
     </ClCompile>
@@ -107,6 +98,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_couchdbserver.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_httpRequestWorker.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_httpRequestWorker.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
+    <ClCompile Include="httpRequestWorker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="analyserq.h">
@@ -117,9 +117,6 @@
     </CustomBuild>
     <CustomBuild Include="analyserq.qrc">
       <Filter>Resource Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="dal.h">
-      <Filter>Header Files</Filter>
     </CustomBuild>
     <CustomBuild Include="DataLib\couchdb.h">
       <Filter>Source Files\Data</Filter>
@@ -136,6 +133,9 @@
     <CustomBuild Include="DataLib\couchdbserver.h">
       <Filter>Source Files\Data</Filter>
     </CustomBuild>
+    <CustomBuild Include="httpRequestWorker.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_analyserq.h">
@@ -149,5 +149,10 @@
     <None Include="map.qml">
       <Filter>Source Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="poi.qml">
+      <Filter>Source Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

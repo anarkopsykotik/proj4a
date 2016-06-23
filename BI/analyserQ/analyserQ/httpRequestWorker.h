@@ -6,6 +6,8 @@
 #include <QMap>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <qauthenticator>
+#include <qdebug>
 
 
 enum HttpRequestVarLayout { NOT_SET, ADDRESS, URL_ENCODED, MULTIPART };
@@ -61,6 +63,8 @@ private:
 
 	private slots:
 	void on_manager_finished(QNetworkReply *reply);
+	// New slot triggered when authentication is needed 
+	void provideAuthentication(QNetworkReply *reply, QAuthenticator *ator);
 
 };
 

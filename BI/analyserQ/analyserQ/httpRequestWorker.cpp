@@ -42,6 +42,9 @@ HttpRequestWorker::HttpRequestWorker(QObject *parent)
 
 	manager = new QNetworkAccessManager(this);
 	connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(on_manager_finished(QNetworkReply*)));
+
+	//auth
+	connect(manager, SIGNAL(authenticationRequired(QNetworkReply*, QAuthenticator*)), SLOT(provideAuthentication(QNetworkReply*, QAuthenticator*)));
 }
 
 QString HttpRequestWorker::http_attribute_encode(QString attribute_name, QString input) {
@@ -281,6 +284,13 @@ void HttpRequestWorker::on_manager_finished(QNetworkReply *reply) {
 	reply->deleteLater();
 
 	emit on_execution_finished(this);
+}
+
+void HttpRequestWorker::provideAuthentication(QNetworkReply *reply, QAuthenticator *ator)
+{
+	qDebug() << reply->readAll(); // this is just to see what we received
+	ator->setUser(QString("MyUserName"));
+	ator->setPassword(QString("MyPassword"));
 }
 
 
