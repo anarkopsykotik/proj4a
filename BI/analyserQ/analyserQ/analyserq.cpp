@@ -113,11 +113,25 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 		qDebug() << v.toObject().value("Longitude").toVariant();
 		QVariant valLat = v.toObject().value("Latitude").toVariant();
 		QVariant valLong = v.toObject().value("Longitude").toVariant();
-		QVariant type = 1;
+		QVariant type = 3;//green
 
-		if (v.toObject().value("Accel_x").toDouble() >= 10)
+		double maxAcc = v.toObject().value("Accel_x").toDouble() + v.toObject().value("Accel_y").toDouble() + v.toObject().value("Accel_z").toDouble();
+
+
+		double humidite = v.toObject().value("Humidite").toDouble();
+		if (humidite >= 100){
+			type = 0;//blue
+		}
+
+		double temp = v.toObject().value("Temperature").toDouble();
+		if (temp >= 320){
+			type = 1;//yellow
+		}
+
+		qDebug() << "max acc:" + QString::number(maxAcc);
+		if (maxAcc >= 10)
 		{
-			type = 2;
+			type = 2;//red
 		}
 		qDebug() << "poi:" + valLat.toString() + valLong.toString() + type.toString();
 		addPoI(valLat, valLong, type);

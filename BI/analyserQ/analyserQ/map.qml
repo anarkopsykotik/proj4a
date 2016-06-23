@@ -38,6 +38,7 @@ Rectangle {
 			}
 			circle.border.width = 1;
 			map.addMapItem(circle);
+			map.center = QtPositioning.coordinate(lat, longi);
 			console.log("success creating object");
 			return true;
 		}
