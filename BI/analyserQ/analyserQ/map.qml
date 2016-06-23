@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtLocation 5.5
+import QtPositioning 5.2
 
 
 
@@ -10,16 +11,32 @@ Rectangle {
         id: osmplugin
         name: "osm"
     }
-	function addPoi(latitude, longitude, type) {
-			console.log("Got message:");
-			var circle = Qt.createQmlObject('import QtLocation 5.3; MapCircle {  center{latitude: 59.9485; longitude: 10.7686} }', map, "dynamic");
+	function addPoi(lat,longi,type) {
+			//console.log("Got message:", lat);
+			//console.log("Got message:", longi);
+			//console.log("Got message:");
+			//var lat = lat;
+			var circle = Qt.createQmlObject('import QtLocation 5.3; MapCircle {   }', map, "dynamic");
 			if(circle == null) {
 			   console.log("error creating object" +  circle.errorString());
 			   return false;
 			}
-			circle.radius = 5000.0;
-			circle.color = 'blue';
-			circle.border.width = 3;
+			circle.center = QtPositioning.coordinate(lat, longi);
+			circle.radius = 500.0;
+
+			if(type == 0){
+				circle.color = 'blue';
+			}
+			else if(type == 1){
+				circle.color = 'yellow';
+			}
+			else if(type == 2){
+				circle.color = 'red';
+			}
+			else if(type == 3){
+				circle.color = 'green';
+			}
+			circle.border.width = 1;
 			map.addMapItem(circle);
 			console.log("success creating object");
 			return true;

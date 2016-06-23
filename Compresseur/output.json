@@ -9,8 +9,8 @@
             "Gyro_roll": 6.1874977,
             "Gyro_yaw": 5.2644875,
             "Humidite": 50,
-            "Latitude": 0.1578949,
-            "Longitude": 0.1578949,
+            "Latitude":  59.9485,
+            "Longitude": 10.7686,
             "Temperature": 292.15,
             "id": "0200000001"
         },
@@ -23,8 +23,8 @@
             "Gyro_roll": 6.1874977,
             "Gyro_yaw": 5.2644875,
             "Humidite": 50,
-            "Latitude": 0.1578949,
-            "Longitude": 0.1578949,
+            "Latitude":  59.9485,
+            "Longitude": 10.8686,
             "Temperature": 292.15,
             "id": "0200000002"
         },
@@ -37,8 +37,8 @@
             "Gyro_roll": 6.1874977,
             "Gyro_yaw": 5.2644875,
             "Humidite": 50,
-            "Latitude": 0.1578949,
-            "Longitude": 0.1578949,
+            "Latitude":  59.9485,
+            "Longitude": 10.9686,
             "Temperature": 292.15,
             "id": "0200000003"
         },
@@ -51,8 +51,8 @@
             "Gyro_roll": 6.1874977,
             "Gyro_yaw": 5.2644875,
             "Humidite": 50,
-            "Latitude": 0.1578949,
-            "Longitude": 0.1578949,
+            "Latitude":  59.9485,
+            "Longitude": 12.7686,
             "Temperature": 292.15,
             "id": "0200000004"
         },
