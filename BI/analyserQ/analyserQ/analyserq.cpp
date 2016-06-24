@@ -177,10 +177,12 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 	//QMessageBox::information(this, "", msg);
 
 	
-	
-	QJsonDocument document = QJsonDocument::fromJson(msg.toUtf8());
+	QJsonParseError error;
+	QJsonDocument document = QJsonDocument::fromJson(msg.toUtf8(), &error);
 	QJsonObject object = document.object();
-
+	if (!document.isObject()) {
+		qDebug() << "Document is not an object" + error.errorString();
+	}
 	QJsonValue value = object.value("DATA");
 	QJsonArray array = value.toArray();
 	double highestTemp = 0, highestAcc = 0, highestHumidite= 0;
