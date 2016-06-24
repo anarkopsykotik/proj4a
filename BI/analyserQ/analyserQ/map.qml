@@ -22,7 +22,7 @@ Rectangle {
 			   return false;
 			}
 			circle.center = QtPositioning.coordinate(lat, longi);
-			circle.radius = 500.0;
+			circle.radius = 2500.0;
 
 			if(type == 0){
 				circle.color = 'blue';

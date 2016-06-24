@@ -245,7 +245,7 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 void analyserQ::setHighestLabels(double highestAcc, double highestTemp, double highestHumidite){
 	labelMaxH->setText("Plus haute humidite du trajet :" + QString::number(highestHumidite));
 	labelMaxA->setText("Plus fort choc du trajet :" + QString::number(highestAcc));
-	labelMaxT->setText("Plus haute temperature du trajet :" + QString::number(highestTemp));
+	labelMaxT->setText("Plus haute temperature du trajet :" + QString::number(highestTemp - 273));
 }
 
 QJsonArray analyserQ::fileLoad(){
