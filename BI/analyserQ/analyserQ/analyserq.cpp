@@ -2,7 +2,7 @@
 
 //static QObject *rootObj;
 QObject *rootObj;
-//QComboBox *liste;
+QComboBox *liste;
 QString dbUrl;
 
 analyserQ::analyserQ(QWidget *parent)
@@ -34,7 +34,7 @@ analyserQ::analyserQ(QWidget *parent)
 
 	liste = new QComboBox;
 	liste->setEditable(false);
-	liste->addItem("1");
+	//liste->addItem("1");
 
 	loadCombobox();
 
@@ -86,13 +86,13 @@ void analyserQ::loadCombobox(){
 	//input.add_var("key2", "value2");
 	worker->execute(&input);
 }
-
+	
 void analyserQ::fillCombobox(HttpRequestWorker* worker){
 	qDebug() << "handleResult";
 	QString msg;
 	if (worker->error_type == QNetworkReply::NoError) {
 		// communication was successful
-		msg = "Success - Response: " + worker->response;
+		msg = worker->response;
 	}
 	else {
 		// an error occurred
@@ -101,20 +101,31 @@ void analyserQ::fillCombobox(HttpRequestWorker* worker){
 		//return;
 	}
 
-	QMessageBox::information(this, "", msg);
+	//QMessageBox::information(this, "", msg);
+	qDebug() << msg;
+	qDebug() << msg.toUtf8();
+	QJsonParseError error;
+	QJsonDocument document = QJsonDocument::fromJson(msg.toUtf8(), &error);
 
-
-
-	QJsonDocument document = QJsonDocument::fromJson(msg.toUtf8());
+	if (!document.isObject()) {
+		qDebug() << "Document is not an object"+error.errorString();
+	}
 	QJsonObject object = document.object();
+	QJsonValue jsonValue = object.value("id");
+	if (jsonValue.isUndefined()) {
+		qDebug() << "Key id does not exist";
+	}
 
+	//QJsonObject object = document.object();
+	//qDebug() << err->errorString();
 	QJsonValue value = object.value("rows");
+	qDebug() << "rowval" + value.toString();
 	QJsonArray array = value.toArray();
 
-	array = fileLoad();
-	qDebug() << "file loaded";
+	//array = fileLoad();
+	//qDebug() << "file loaded";
 
-	foreach(const QJsonValue & v, array)//				debug
+	foreach(const QJsonValue & v, array)
 	{
 		liste->addItem(v.toObject().value("id").toString());
 	}
@@ -137,10 +148,11 @@ void analyserQ::loadPoI() {
 
 	QString choosenTraject = liste->currentText();
 
-	int docId = 1;
-	docId = choosenTraject.toInt();
+	QString docId = "1";
+	docId = choosenTraject;
 	
 	QString url_str = dbUrl + "/"+docId ;
+	QMessageBox::information(this, "", url_str);
 	HttpRequestInput input(url_str, "GET");
 	//input.add_var("key1", "value1");
 	//input.add_var("key2", "value2");
@@ -153,7 +165,7 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 	qDebug() << "handleResult";
 	if (worker->error_type == QNetworkReply::NoError) {
 		// communication was successful
-		msg = "Success - Response: " + worker->response;
+		msg = worker->response;
 	}
 	else {
 		// an error occurred
@@ -162,7 +174,7 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 		//return;
 	}
 
-	QMessageBox::information(this, "", msg);
+	//QMessageBox::information(this, "", msg);
 
 	
 	
@@ -173,8 +185,8 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 	QJsonArray array = value.toArray();
 	double highestTemp = 0, highestAcc = 0, highestHumidite= 0;
 
-	array = fileLoad();
-	qDebug() << "file loaded";
+	//array = fileLoad();
+	//qDebug() << "file loaded";
 
 	foreach(const QJsonValue & v, array)//				debug
 	{
@@ -227,9 +239,9 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 }
 
 void analyserQ::setHighestLabels(double highestAcc, double highestTemp, double highestHumidite){
-	labelMaxH->setText("Plus haute humidite du trajet" + QString::number(highestHumidite));
-	labelMaxA->setText("Plus fort choc du trajet" + QString::number(highestAcc));
-	labelMaxT->setText("Plus haute temperature du trajet" + QString::number(highestTemp));
+	labelMaxH->setText("Plus haute humidite du trajet :" + QString::number(highestHumidite));
+	labelMaxA->setText("Plus fort choc du trajet :" + QString::number(highestAcc));
+	labelMaxT->setText("Plus haute temperature du trajet :" + QString::number(highestTemp));
 }
 
 QJsonArray analyserQ::fileLoad(){
