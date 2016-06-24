@@ -152,7 +152,7 @@ void analyserQ::loadPoI() {
 	docId = choosenTraject;
 	
 	QString url_str = dbUrl + "/"+docId ;
-	QMessageBox::information(this, "", url_str);
+	//QMessageBox::information(this, "", url_str);
 	HttpRequestInput input(url_str, "GET");
 	//input.add_var("key1", "value1");
 	//input.add_var("key2", "value2");
@@ -199,7 +199,7 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 		QVariant valLong = v.toObject().value("Longitude").toVariant();
 		QVariant type = 3;//green
 
-		double maxAcc = v.toObject().value("Accel_x").toDouble() + v.toObject().value("Accel_y").toDouble() + v.toObject().value("Accel_z").toDouble();
+		double maxAcc = qAbs(v.toObject().value("Accel_x").toDouble()) + qAbs(v.toObject().value("Accel_y").toDouble()) + qAbs(v.toObject().value("Accel_z").toDouble());
 		highestAcc = maxAcc > highestAcc ? maxAcc : highestAcc;
 
 		double humidite = v.toObject().value("Humidite").toDouble();
@@ -215,12 +215,14 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 		}
 
 		qDebug() << "max acc:" + QString::number(maxAcc);
-		if (maxAcc >= 10)
+		if (maxAcc >= 20)
 		{
 			type = 2;//red
 		}
 		qDebug() << "poi:" + valLat.toString() + valLong.toString() + type.toString();
-		addPoI(valLat, valLong, type);
+
+		if (type != 3)
+			addPoI(valLat, valLong, type);
 		
 	}
 	setHighestLabels(highestAcc, highestTemp, highestHumidite);
