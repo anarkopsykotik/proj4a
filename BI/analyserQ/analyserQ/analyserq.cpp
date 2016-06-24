@@ -12,13 +12,14 @@ analyserQ::analyserQ(QWidget *parent)
 
 	QSettings settings(QString("config.ini"), QSettings::IniFormat);
 	dbUrl = settings.value("db/url", "http://localhost:32768").toString(); // settings.value() returns QVariant
+
 	qDebug() << "db: "+dbUrl;
 	QQuickView *view = new QQuickView();
 	QWidget *map = new QWidget();
 	QWidget *container = QWidget::createWindowContainer(view, map);
 	container->setMinimumSize(400, 450);
 	container->setMaximumSize(800, 800);
-	container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+	container->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	container->setFocusPolicy(Qt::TabFocus	);
 	view->setSource(QUrl("map.qml"));
 
@@ -170,7 +171,7 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 
 	QJsonValue value = object.value("DATA");
 	QJsonArray array = value.toArray();
-	double highestTemp, highestAcc, highestHumidite;
+	double highestTemp = 0, highestAcc = 0, highestHumidite= 0;
 
 	array = fileLoad();
 	qDebug() << "file loaded";
@@ -185,10 +186,10 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 		QVariant type = 3;//green
 
 		double maxAcc = v.toObject().value("Accel_x").toDouble() + v.toObject().value("Accel_y").toDouble() + v.toObject().value("Accel_z").toDouble();
-		double highestAcc = maxAcc > highestAcc ? maxAcc : highestAcc;
+		highestAcc = maxAcc > highestAcc ? maxAcc : highestAcc;
 
 		double humidite = v.toObject().value("Humidite").toDouble();
-		double highestHumidite = humidite > highestHumidite ? humidite : highestHumidite;
+		highestHumidite = humidite > highestHumidite ? humidite : highestHumidite;
 		if (humidite >= 100){
 			type = 0;//blue
 		}
