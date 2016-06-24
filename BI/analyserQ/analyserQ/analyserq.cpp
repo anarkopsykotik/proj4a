@@ -204,18 +204,18 @@ void analyserQ::handle_result(HttpRequestWorker *worker) {
 
 		double humidite = v.toObject().value("Humidite").toDouble();
 		highestHumidite = humidite > highestHumidite ? humidite : highestHumidite;
-		if (humidite >= 100){
+		if (humidite >= 50){
 			type = 0;//blue
 		}
 
 		double temp = v.toObject().value("Temperature").toDouble();
 		highestTemp = temp > highestTemp ? temp : highestTemp;
-		if (temp >= 320){
+		if (temp >= 310){
 			type = 1;//yellow
 		}
 
 		qDebug() << "max acc:" + QString::number(maxAcc);
-		if (maxAcc >= 20)
+		if (maxAcc >= 15)
 		{
 			type = 2;//red
 		}
